@@ -4,7 +4,9 @@ import Timer from './components/Timer.vue'
 </script>
 
 <template>
-  <Timer></Timer>
+  <div id='debug' class = "flex justify-content-center align-items-center h-screen">
+    <Timer/>
+  </div>
 </template>
 
 <style scoped>
