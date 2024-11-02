@@ -4,18 +4,27 @@ import Card from 'primevue/card';
 
 import { ref } from 'vue';
 
-const timeDisplay = ref('25:00')
-let timer = 25; // Minutes
+const timeDisplay = ref('25:00');
+let timerAmount = 25; // Minutes
 
-const startTime = new Date();
+let worker = new Worker(new URL('../worker.js', import.meta.url));
 
 const startTimer = ()=> {
-    setInterval( ()=> {
-        let currentTime = new Date();
-        console.log(currentTime.getTime() - startTime.getTime())
-    }
-    , 1000)
-}
+    let endTime = timerAmount * 60 + Date.now() / 1000;
+    worker.postMessage(endTime);
+
+    worker.onmessage = (e)=> {
+        let min = Math.floor(e.data / 60);
+        let sec = Math.floor((e.data % 60));
+
+        timeDisplay.value = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+    };
+};
+
+const stopTimer = ()=> {
+    worker.terminate();
+    worker = new Worker(new URL('../worker.js', import.meta.url));
+};
 
 </script>
 
@@ -29,7 +38,7 @@ const startTimer = ()=> {
             <template #footer>
                 <div class="flex justify-content-center align-content-item gap-2 mt-1">
                     <Button @click="startTimer" label='Start'></Button>
-                    <Button label='Stop'></Button>
+                    <Button @click="stopTimer" label='Stop'></Button>
                     <Button label='Reset'></Button>
                 </div>
             </template>
