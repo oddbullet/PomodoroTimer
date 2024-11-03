@@ -4,32 +4,73 @@ import Card from 'primevue/card';
 
 import { ref } from 'vue';
 
+const backgroundColor = defineModel();
+
 const timeDisplay = ref('25:00');
-let timerAmount = 25; // Minutes
+
+let focusTime = 25 * 60;
+let shortTime = 5 * 60;
+let longTime = 30 * 60;
+
+let timerAmount = focusTime; //Seconds
+
+let timeOn = ref(false);
 
 let worker = new Worker(new URL('../worker.js', import.meta.url));
 
 const startTimer = ()=> {
-    let endTime = timerAmount * 60 + Date.now() / 1000;
-    worker.postMessage(endTime);
+    if(timerAmount > 0) {
+        timeOn.value = true;
+        worker.postMessage(timerAmount);
+    } else {
+        return;
+    }
 
     worker.onmessage = (e)=> {
-        let min = Math.floor(e.data / 60);
-        let sec = Math.floor((e.data % 60));
-
-        timeDisplay.value = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        updateTimer(e.data);
+        timerAmount = e.data;
+        if(e.data == 0) {
+            stopTimer();
+        }
     };
 };
 
 const stopTimer = ()=> {
+    timeOn.value = false;
     worker.terminate();
     worker = new Worker(new URL('../worker.js', import.meta.url));
 };
 
+const changeTab = (newTime, bgColor)=> {
+    stopTimer();
+    backgroundColor.value = bgColor;
+    timerAmount = newTime;
+    updateTimer(newTime);
+}
+
+const formatTime = (time)=> {
+    let min = Math.floor(time / 60);
+    let sec = Math.floor((time % 60));
+
+    return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+}
+
+const updateTimer = (time)=> {
+    timeDisplay.value = formatTime(time);
+}
+
 </script>
 
 <template>
+    <div class = "background">
         <Card id='timer-container'>
+            <template #header>
+                <div class="flex justify-content-center align-content-item gap-2 pt-4">
+                    <Button @click="changeTab(focusTime, '#FF5C5C')" label="Focus"/>
+                    <Button @click="changeTab(shortTime, '#7684FF')" label="Short"/>
+                    <Button @click="changeTab(longTime, '#3D3D3D')" label="Long"/>
+                </div>
+            </template>
             <template #title>
                 <div class="flex justify-content-center align-content-item">
                     <h1> {{ timeDisplay }} </h1>
@@ -37,12 +78,12 @@ const stopTimer = ()=> {
             </template> 
             <template #footer>
                 <div class="flex justify-content-center align-content-item gap-2 mt-1">
-                    <Button @click="startTimer" label='Start'></Button>
-                    <Button @click="stopTimer" label='Stop'></Button>
-                    <Button label='Reset'></Button>
+                    <Button v-if="!timeOn" @click="startTimer" label='Start'/>
+                    <Button v-else @click="stopTimer" label='Pause'/>
                 </div>
             </template>
         </Card>
+    </div>
 </template>
 
 <style scoped>
