@@ -1,8 +1,7 @@
-const startTime = Date.now();
-
 self.onmessage = (endTime)=> {
+    let remainder = endTime.data
     setInterval( ()=> {
-        let remainder = endTime.data - (Date.now() / 1000)
-        self.postMessage(remainder)
-    }, 100);
+        remainder--;
+        self.postMessage(remainder);
+    }, 1000);
 };
