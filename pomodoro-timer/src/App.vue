@@ -3,7 +3,7 @@ import Timer from './components/Timer.vue'
 
 import { ref } from 'vue';
 
-const bgColor = ref();
+const bgColor = ref('#FF5C5C');
 
 </script>
 
