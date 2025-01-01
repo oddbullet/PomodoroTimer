@@ -62,7 +62,7 @@ const updateTimer = (time)=> {
 </script>
 
 <template>
-    <div class = "background">
+    <div class="background">
         <Card id='timer-container'>
             <template #header>
                 <div class="flex justify-content-center align-content-item gap-2 pt-4">
@@ -92,5 +92,4 @@ const updateTimer = (time)=> {
     width: 40rem;
     background-color: antiquewhite;
 }
-
 </style>
