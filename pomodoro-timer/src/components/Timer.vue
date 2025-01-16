@@ -8,7 +8,7 @@ const backgroundColor = defineModel();
 
 const timeDisplay = ref('25:00');
 
-let focusTime = 25 * 60;
+let focusTime = 1 * 60;
 let shortTime = 5 * 60;
 let longTime = 30 * 60;
 
@@ -36,6 +36,11 @@ const startTimer = ()=> {
 };
 
 const stopTimer = ()=> {
+    if (timeOn.value) {
+        let mySound = new Audio('sound/japan-eas-alarm.mp3')
+        mySound.play()
+    }
+
     timeOn.value = false;
     worker.terminate();
     worker = new Worker(new URL('../worker.js', import.meta.url));
@@ -59,31 +64,39 @@ const updateTimer = (time)=> {
     timeDisplay.value = formatTime(time);
 }
 
+const openSetting = () => {
+  alert('Open Setting');
+}
+
 </script>
 
 <template>
-    <div class="background">
-        <Card id='timer-container'>
-            <template #header>
-                <div class="flex justify-content-center align-content-item gap-2 pt-4">
-                    <Button @click="changeTab(focusTime, '#FF5C5C')" label="Focus"/>
-                    <Button @click="changeTab(shortTime, '#7684FF')" label="Short"/>
-                    <Button @click="changeTab(longTime, '#3D3D3D')" label="Long"/>
-                </div>
-            </template>
-            <template #title>
-                <div class="flex justify-content-center align-content-item">
-                    <h1> {{ timeDisplay }} </h1>
-                </div>
-            </template> 
-            <template #footer>
-                <div class="flex justify-content-center align-content-item gap-2 mt-1">
-                    <Button v-if="!timeOn" @click="startTimer" label='Start'/>
-                    <Button v-else @click="stopTimer" label='Pause'/>
-                </div>
-            </template>
-        </Card>
+    <div class = "flex flex-column">
+      <div class="mb-1">
+        <Button @click="openSetting" label="Setting"/>
+      </div>
+      <Card id='timer-container'>
+          <template #header>
+              <div class="flex justify-content-center align-content-item gap-2 pt-4">
+                  <Button @click="changeTab(focusTime, '#FF5C5C')" label="Focus"/>
+                  <Button @click="changeTab(shortTime, '#7684FF')" label="Short"/>
+                  <Button @click="changeTab(longTime, '#3D3D3D')" label="Long"/>
+              </div>
+          </template>
+          <template #title>
+              <div class="flex justify-content-center align-content-item">
+                  <h1> {{ timeDisplay }} </h1>
+              </div>
+          </template>
+          <template #footer>
+              <div class="flex justify-content-center gap-2 mt-1">
+                  <Button v-if="!timeOn" @click="startTimer" label='Start'/>
+                  <Button v-else @click="stopTimer" label='Pause'/>
+              </div>
+          </template>
+      </Card>
     </div>
+    
 </template>
 
 <style scoped>
@@ -92,4 +105,5 @@ const updateTimer = (time)=> {
     width: 40rem;
     background-color: antiquewhite;
 }
+
 </style>
