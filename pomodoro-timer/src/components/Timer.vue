@@ -161,6 +161,7 @@ const toggleSetting = () => {
         v-model:focus="focusTime"
         v-model:short="shortTime"
         v-model:long="longTime"
+        v-model:setting="settingOn"
         />
       </div>
       <Card id='timer-container'>
