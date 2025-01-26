@@ -14,31 +14,36 @@ const newItem = ref(false);
 
 const addItem = (newTask) => {
     list.value.push({task: newTask, key: JSON.stringify(Date.now())});
-    switchVal()
+    toggleNewTaskButton()
 }
 
 const doneItem = (key) => {
     list.value = list.value.filter((item) => item.key != key);
 }
 
-const switchVal = () => {
+const toggleNewTaskButton = () => {
     newItem.value = !newItem.value
 }
 
 </script>
 
 <template>
-    <div class="todo-list">
-        <div v-for="item in list" :key="item.key">
+    <div class="flex flex-column border-round-md" id="todo-list">
+        <div class="flex mt-1 ml-2 mb-1" v-for="item in list" :key="item.key"> 
             <Checkbox v-model="checked" :inputId="item.key" name="item" :value="item.task" @click="doneItem(item.key)"/>
-            <label :for="item.key">{{ item.task }}</label>
+            <label class="ml-1" :for="item.key">{{ item.task }}</label>
         </div>
 
-        <input v-if="newItem"  @keyup.enter="addItem($event.target.value)"/>
-        <Button v-else label="+ New Task" @click="switchVal"/>
+        <div class="flex justify-content-center mt-1 mb-1">
+            <input v-if="newItem"  @keyup.enter="addItem($event.target.value)"/>
+            <Button v-else label="+ New Task" @click="toggleNewTaskButton"/>
+        </div>
     </div>
   
 </template>
 
 <style scoped>
+#todo-list {
+    background-color:   #FF7F7F;
+}
 </style>
