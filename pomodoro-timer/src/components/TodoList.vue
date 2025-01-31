@@ -4,6 +4,8 @@ import { ref } from 'vue';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
 
+import Database from '../classes/Database.js';
+
 const list = ref([
     {task: 'Make my bed', key: JSON.stringify(Date.now())},
     {task: 'Do coding project', key: JSON.stringify(Date.now() + 1)}
@@ -24,6 +26,10 @@ const doneItem = (key) => {
 const toggleNewTaskButton = () => {
     newItem.value = !newItem.value
 }
+
+// const db = new Database();
+
+// db.open();
 
 </script>
 
