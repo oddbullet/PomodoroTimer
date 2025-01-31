@@ -2,8 +2,6 @@
 import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
 
-import {ref} from 'vue';
-
 const focusTime = defineModel('focus');
 const shortTime = defineModel('short');
 const longTime = defineModel('long');
