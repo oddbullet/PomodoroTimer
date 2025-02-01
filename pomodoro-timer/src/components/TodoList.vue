@@ -14,8 +14,17 @@ const list = ref([
 const checked = ref();
 const newItem = ref(false);
 
+const db = new Database();
+db.open()
+
 const addItem = (newTask) => {
-    list.value.push({task: newTask, key: JSON.stringify(Date.now())});
+    let date = JSON.stringify(Date.now());
+    let data = {task: newTask, key: date}
+
+    list.value.push(data);
+
+    db.add('tasks', {task: newTask, taskID: date});
+
     toggleNewTaskButton()
 }
 
@@ -26,10 +35,6 @@ const doneItem = (key) => {
 const toggleNewTaskButton = () => {
     newItem.value = !newItem.value
 }
-
-// const db = new Database();
-
-// db.open();
 
 </script>
 

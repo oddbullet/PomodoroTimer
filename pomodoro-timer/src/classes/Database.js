@@ -7,17 +7,19 @@ export default class DataBase {
     open() {
         let request = indexedDB.open('myDatabase', 1);
 
-        request.onsuccess = function(event) {
+        request.onsuccess = (event) => {
             this.db = event.target.result;
-            console.log('Database: ', this.db);
+            // console.log('Database: ', this.db);
         }
 
         request.onerror = (event) => {
             console.error('Database fail to open: ', event.target.error);
         }
 
-        request.onupgradeneeded = function(event) {
+        request.onupgradeneeded = (event) => {
             this.db = event.target.result;
+
+            console.log('Here 2: ', this.db)
             
             if (!this.db.objectStoreNames.contains('tasks')) {
                 const objectStore = this.db.createObjectStore('tasks', {keyPath: 'taskID'});
@@ -33,22 +35,27 @@ export default class DataBase {
         }
     }
 
-    // Test
     add(type, data) {
-        const transaction = this.db.transaction([type], 'readwrite');
 
-        transaction.onerror = (event) => {
-            console.error('Cannot complete transaction');
+        if(this.db == null) {
+            console.error('Database is not initialize!');
+            return;
         }
 
-        transaction.oncomplete = (event) => {
-            console.log("All done!")
-        }
+        const transaction = this.db.transaction(type, 'readwrite');
 
         const objectStore = transaction.objectStore(type);
         const request = objectStore.add(data);
 
-        request.onerror = (event) => {
+        transaction.onerror = (event) => {
+            console.error(`Cannot complete transaction: ${event.target.error}`);
+        }
+
+        transaction.oncomplete = () => {
+            console.log("All done!");
+        }
+
+        request.onerror = () => {
             console.error('Unable to add: ', type);
         }
     }
@@ -104,8 +111,12 @@ export default class DataBase {
         }
     }
 
-    
+
     updateVersion() {
 
+    }
+
+    deleteDataBase() {
+        // window.indexedDB.deleteDatabase("myDatabase");
     }
 }
