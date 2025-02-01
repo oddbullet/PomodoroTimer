@@ -5,34 +5,38 @@ export default class DataBase {
     }
 
     open() {
-        let request = indexedDB.open('myDatabase', 1);
+        return new Promise((resolve, reject) => {
+            let request = indexedDB.open('myDatabase', 1);
 
-        request.onsuccess = (event) => {
-            this.db = event.target.result;
-            // console.log('Database: ', this.db);
-        }
-
-        request.onerror = (event) => {
-            console.error('Database fail to open: ', event.target.error);
-        }
-
-        request.onupgradeneeded = (event) => {
-            this.db = event.target.result;
-
-            console.log('Here 2: ', this.db)
-            
-            if (!this.db.objectStoreNames.contains('tasks')) {
-                const objectStore = this.db.createObjectStore('tasks', {keyPath: 'taskID'});
-
-                objectStore.createIndex('taskID', 'taskID', {unique: true});
+            request.onsuccess = (event) => {
+                this.db = event.target.result;
+                resolve('success');
+                // console.log('Database: ', this.db);
             }
-
-            if (!this.db.objectStoreNames.contains('time')) {
-                const objectStore = this.db.createObjectStore('time', {keyPath: 'name'});
-
-                objectStore.createIndex('name', 'name', {unique: true});
+    
+            request.onerror = (event) => {
+                console.error('Database fail to open: ', event.target.error);
+                reject(false);
             }
-        }
+    
+            request.onupgradeneeded = (event) => {
+                this.db = event.target.result;
+    
+                console.log('Here 2: ', this.db)
+                
+                if (!this.db.objectStoreNames.contains('tasks')) {
+                    const objectStore = this.db.createObjectStore('tasks', {keyPath: 'taskID'});
+    
+                    objectStore.createIndex('taskID', 'taskID', {unique: true});
+                }
+    
+                if (!this.db.objectStoreNames.contains('time')) {
+                    const objectStore = this.db.createObjectStore('time', {keyPath: 'name'});
+    
+                    objectStore.createIndex('name', 'name', {unique: true});
+                }
+            }
+        });
     }
 
     add(type, data) {
@@ -40,6 +44,8 @@ export default class DataBase {
         if(this.db == null) {
             console.error('Database is not initialize!');
             return;
+        } else {
+            console.log('Database Loaded Add: ', this.db);
         }
 
         const transaction = this.db.transaction(type, 'readwrite');
@@ -64,7 +70,6 @@ export default class DataBase {
 
     }
 
-    // Test
     delete(taskID) {
         const request = this.db.transaction(['tasks'], 'readwrite')
         .objectStore('tasks')
@@ -94,6 +99,14 @@ export default class DataBase {
 
     // Test
     getAll() {
+        if(this.db == null) {
+            console.error('Database is not initialize!');
+            console.log(this.db);
+            return;
+        } else {
+            console.log('Database loaded getALL')
+        }
+
         const request = this.db.transaction('tasks', 'readonly')
         .objectStore('tasks')
         .getAll();
