@@ -15,7 +15,7 @@ const checked = ref();
 const newItem = ref(false);
 
 const db = new Database();
-db.open()
+db.open().then(() => loadData()).catch((error) => console.error(error));
 
 const addItem = (newTask) => {
     let date = JSON.stringify(Date.now());
@@ -23,18 +23,31 @@ const addItem = (newTask) => {
 
     list.value.push(data);
 
-    db.add('tasks', {task: newTask, taskID: date});
-
-    toggleNewTaskButton()
+    try {
+        db.add('tasks', {task: newTask, taskID: date});
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    } finally {
+        toggleNewTaskButton()
+    }
 }
 
 const doneItem = (key) => {
     list.value = list.value.filter((item) => item.key != key);
+    db.delete(key);
 }
 
 const toggleNewTaskButton = () => {
     newItem.value = !newItem.value
 }
+
+
+function loadData() {
+    let data = db.getAll();
+
+    data.forEach((item) => console.log(item));
+}
+
 
 </script>
 
