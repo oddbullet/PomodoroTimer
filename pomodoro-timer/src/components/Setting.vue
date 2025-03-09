@@ -2,8 +2,6 @@
 import Button from 'primevue/button';
 import InputNumber from 'primevue/inputnumber';
 
-import {ref} from 'vue';
-
 const focusTime = defineModel('focus');
 const shortTime = defineModel('short');
 const longTime = defineModel('long');
@@ -11,6 +9,9 @@ const settingOn = defineModel('setting');
 
 const save = () => {
     settingOn.value = !settingOn.value;
+
+    const time = {focus: focusTime.value, short: shortTime.value, long: longTime.value}
+    localStorage.setItem('customTime', JSON.stringify(time))
 }
 
 </script>
@@ -33,7 +34,7 @@ const save = () => {
                 </div>
             </div>
             <div class="flex justify-content-center">
-                <Button class="mt-2" @click="save" label="Save"/>
+                <Button class="mt-5" @click="save" label="Save"/>
             </div>
         </div>  
     </div>
@@ -45,7 +46,7 @@ const save = () => {
     background-color: white;
     border-radius: 0.25rem;
     padding-top: 50px;
-    padding-bottom: 50px;
+    padding-bottom: 40px;
     padding-left: 35px;
     padding-right: 35px;
 }

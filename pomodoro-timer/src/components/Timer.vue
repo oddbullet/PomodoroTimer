@@ -136,7 +136,7 @@ const changeTab = (newState)=> {
     updateTimer(timerAmount);
 }
 
-const formatTime = (time)=> {
+const formatTime = (time) => {
     let min = Math.floor(time / 60);
     let sec = Math.floor((time % 60));
 

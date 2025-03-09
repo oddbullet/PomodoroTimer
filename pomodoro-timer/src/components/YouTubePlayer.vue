@@ -24,13 +24,13 @@ const getVideoId = (url) => {
 
 <template>
     <div class="flex flex-column">
-        <iframe id="ytPlayer" title="player" type="text/html" width="200px" height="200px" frameborder="0" :src="embedURL"></iframe>
-        <input id="ytURL" type="text" @keyup.enter="getVideoId($event.target.value)" placeholder="Enter YouTube URL"/>
+        <iframe class="border-round-top-sm" id="ytPlayer" title="player" type="text/html" width="400px" height="200px" frameborder="0" :src="embedURL"></iframe>
+        <input class="border-round-bottom-sm" id="ytURL" type="text" @keyup.enter="getVideoId($event.target.value)" placeholder="Enter YouTube URL"/>
     </div>
 </template>
 
 <style scoped>
 #ytURL {
-    width: 200px;
+    width: 400px;
 }
 </style>
