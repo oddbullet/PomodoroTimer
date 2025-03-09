@@ -9,6 +9,9 @@ const settingOn = defineModel('setting');
 
 const save = () => {
     settingOn.value = !settingOn.value;
+
+    const time = {focus: focusTime.value, short: shortTime.value, long: longTime.value}
+    localStorage.setItem('customTime', JSON.stringify(time))
 }
 
 </script>
