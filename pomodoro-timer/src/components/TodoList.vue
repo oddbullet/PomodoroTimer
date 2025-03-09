@@ -7,15 +7,17 @@ import Checkbox from 'primevue/checkbox';
 import Database from '../classes/Database.js';
 
 const list = ref([
-    {task: 'Make my bed', key: JSON.stringify(Date.now())},
-    {task: 'Do coding project', key: JSON.stringify(Date.now() + 1)}
+    // {task: 'Make my bed', key: JSON.stringify(Date.now())},
+    // {task: 'Do coding project', key: JSON.stringify(Date.now() + 1)}
 ]);
 
 const checked = ref();
 const newItem = ref(false);
 
-const db = new Database();
-db.open().then(() => loadData()).catch((error) => console.error(error));
+// const db = new Database();
+// db.open().then(() => loadData()).catch((error) => console.error(error));
+
+loadData()
 
 const addItem = (newTask) => {
     let date = JSON.stringify(Date.now());
@@ -24,7 +26,8 @@ const addItem = (newTask) => {
     list.value.push(data);
 
     try {
-        db.add('tasks', {task: newTask, taskID: date});
+        // db.add('tasks', {task: newTask, taskID: date});
+        localStorage.setItem("userTask", JSON.stringify(list.value))
     } catch (error) {
         console.error(`Error: ${error}`);
     } finally {
@@ -34,7 +37,8 @@ const addItem = (newTask) => {
 
 const doneItem = (key) => {
     list.value = list.value.filter((item) => item.key != key);
-    db.delete(key);
+    // db.delete(key);
+    localStorage.setItem("userTask", JSON.stringify(list.value))
 }
 
 const toggleNewTaskButton = () => {
@@ -43,9 +47,15 @@ const toggleNewTaskButton = () => {
 
 
 function loadData() {
-    let data = db.getAll();
+    // let data = db.getAll();
 
-    data.forEach((item) => console.log(item));
+    const saveData = JSON.parse(localStorage.getItem("userTask"))
+
+    saveData.forEach(task => {
+        list.value.push(task)
+    });
+
+    // data.forEach((item) => console.log(item));
 }
 
 
