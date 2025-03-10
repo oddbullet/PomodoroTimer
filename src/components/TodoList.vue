@@ -51,9 +51,13 @@ function loadData() {
 
     const saveData = JSON.parse(localStorage.getItem("userTask"))
 
-    saveData.forEach(task => {
-        list.value.push(task)
-    });
+    if (Array.isArray(saveData)) {
+        saveData.forEach(task => {
+            list.value.push(task)
+        })
+    }
+    
+    // for (let index = 0; index < saveData.le
 
     // data.forEach((item) => console.log(item));
 }
