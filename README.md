@@ -14,4 +14,3 @@ This project is a web-based timer that uses the Pomodoro technique to boost prod
 - Browser Storage Options: Explored various browser storage solutions like localStorage and IndexedDB to persist user data, ensuring that preferences are saved between visits.
 
 # Demo
-
