@@ -78,6 +78,7 @@ function loadData() {
 
 <style scoped>
 #todo-list {
-    background-color:   #FF7F7F;
+    /* background-color:   #FF7F7F; */
+    background-color: white;
 }
 </style>

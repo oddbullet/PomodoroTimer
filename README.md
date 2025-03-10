@@ -1,5 +1,17 @@
-# Vue 3 + Vite
+# Pomodoro Timer
+This project is a web-based timer that uses the Pomodoro technique to boost productivity and focus. The Pomodoro method divides work periods (commonly 25 minutes) into defined sessions a focused work interval, a short rest period, and, after several cycles, a longer break. This implementation is designed to help you manage time effectively, reduce burnout, and track your progress through each cycle.
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+# Features
+- Customizable Intervals: Allow users to adjust the duration of the focus period, as well as short breaks and long breaks.
+- To-do List: Give the users a way to keep track of tasks.
+- YouTube Music Player: Embed a YouTube music player for background music while working.
+- Local Data Persistence: Utilize local storage to save user time preferences and tasks.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+# Skills Learned
+- Vue.Js: Developed dynamic and reactive user interfaces using Vue.js, leveraging its component-based structure to build a clean and efficient application architecture.
+- Javascript Web Worker: Utilized Web Workers to offload the timer functionality, ensuring smooth performance even when the main thread is busy with other tasks.
+- CSS: Learned to use CSS Grids to layout a web page.
+- Browser Storage Options: Explored various browser storage solutions like localStorage and IndexedDB to persist user data, ensuring that preferences are saved between visits.
+
+# Demo
+
