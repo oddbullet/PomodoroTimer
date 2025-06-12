@@ -1,6 +1,8 @@
 # Pomodoro Timer
 This project is a web-based timer that uses the Pomodoro technique to boost productivity and focus. The Pomodoro method divides work periods (commonly 25 minutes) into defined sessions a focused work interval, a short rest period, and, after several cycles, a longer break. This implementation is designed to help you manage time effectively, reduce burnout, and track your progress through each cycle.
 
+I made this to learn Vue.js.
+
 # Demo
 https://oddbullet.github.io/PomodoroTimer/
 ![Screenshot 2025-03-10 165308](https://github.com/user-attachments/assets/52174e3e-0785-4522-af16-4d86f9d4304b)
